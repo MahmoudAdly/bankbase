@@ -12,4 +12,8 @@ class Transaction < ApplicationRecord
             :exchange_rate,
             :status,
             presence: true
+  
+  enumerize :source_currency, in: [:eur, :gbp, :usd]
+  enumerize :target_currency, in: [:eur, :gbp, :usd]
+  enumerize :status, in: [:scheduled, :finished, :failed], default: :scheduled
 end
