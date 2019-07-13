@@ -27,6 +27,7 @@ Please use Docker for a consistent development experience.
 
 For the first time, run the following commands:
 ```
+$ cp .env.example .env
 $ docker-compose build
 $ docker-compose run --rm app bin/rails db:migrate
 $ docker-compose run --rm app ./bin/setup
