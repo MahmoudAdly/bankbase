@@ -4,30 +4,45 @@ services:
   app:
     build:
       context: .
-    command: "rails s -b 0.0.0.0 -p 3000"
+    command: "bin/rails s -b 0.0.0.0 -p 3000"
     depends_on:
       - db
-    # entrypoint: /bin/sh
+      - redis
     env_file: .env
     environment:
       - RAILS_ENV=development
+      - REDIS_URL=redis://redis:6379
+    links:
+      - db
+      - redis
     ports:
       - 3000:3000
     volumes:
       - .:/usr/src/app
     stdin_open: true
     tty: true
+
+  worker:
+    build: .
+    command: bundle exec rake environment resque:work QUEUE=*
+    volumes:
+      - .:/usr/src/app
+    links:
+      - db
+      - redis
+    depends_on:
+      - db
+      - redis
+    environment:
+      - RAILS_ENV=development
+      - REDIS_URL=redis://redis:6379
+
   db:
     image: postgres:latest
     ports:
       - 5432:5432
-  delayed_job:
-    build: .
-    command: rake jobs:work
-    volumes:
-      - .:/app
-    env_file: .env
-    depends_on:
-      - db
-    stdin_open: true
-    tty: true
+
+  redis:
+    image: redis
+    ports:
+      - "6379"

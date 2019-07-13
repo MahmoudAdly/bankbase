@@ -20,6 +20,7 @@ class TransactionsController < ApplicationController
                                                        @transaction.target_currency).call
 
     if @transaction.save
+      Resque.enqueue(TransactionProcessorJob, @transaction.id)
       redirect_to root_path
     else
       render 'new'
