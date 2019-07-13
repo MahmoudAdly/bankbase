@@ -1,0 +1,68 @@
+<div class="row">
+  <%= form_with scope: :transaction, url: transactions_path, local: true do |form| %>
+  
+    <%# errors %>
+    <% if @transaction.errors.any? %>
+      <div id="error_explanation">
+        <h3>
+          <%= pluralize(@transaction.errors.count, "error") %> found:
+        </h3>
+        <ul>
+          <% @transaction.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%# receiver %>
+    <div class="input-field col s6">
+      <select name="transaction[receiver_id]">
+        <option value="" disabled selected>Choose a receiver</option>
+        <% User.all.each do |user| %>
+          <option value="<%= user.id %>"><%= user.name %></option>
+        <% end %>
+      </select>
+      <label>Send to</label>
+    </div>
+
+    <%# amount %>
+    <div class="input-field col s6">
+      <input name="transaction[amount]" placeholder="" id="amount" type="number" class="validate">
+      <label for="amount">Amount</label>
+    </div>
+
+    <%# source currency %>
+    <div class="input-field col s6">
+      <select name="transaction[source_currency]">
+        <option value="" disabled selected>Choose source currency</option>
+        <% Transaction.source_currency.values.each do |source_currency| %>
+          <option value="<%= source_currency %>"><%= source_currency.upcase %></option>
+        <% end %>
+      </select>
+      <label>Source currency</label>
+    </div>
+
+    <%# target currency %>
+    <div class="input-field col s6">
+      <select name="transaction[target_currency]">
+        <option value="" disabled selected>Choose target currency</option>
+        <% Transaction.target_currency.values.each do |target_currency| %>
+          <option value="<%= target_currency %>"><%= target_currency.upcase %></option>
+        <% end %>
+      </select>
+      <label>Target currency</label>
+    </div>
+
+    <div class="input-field col s12">
+      <%= form.submit class: "waves-effect waves-light btn blue darken-1" %>
+    </div>
+  
+  <% end %>
+</div>
+
+<div class="row">
+  <div class="col s1">
+    <%= link_to 'Back', root_path %>
+  </div>
+</div>
