@@ -30,9 +30,19 @@ mathias = User.create!(
 Transaction.create!(
   sender: default_bank_user,
   receiver: mahmoud,
-  source_currency: :usd,
-  target_currency: :eur,
-  amount: 500.53,
-  exchange_rate: 0.95432,
+  source_currency: :eur,
+  target_currency: :usd,
+  amount: 1000,
+  exchange_rate: 1,
+  status: :finished
+)
+
+Transaction.create!(
+  sender: default_bank_user,
+  receiver: mathias,
+  source_currency: :eur,
+  target_currency: :usd,
+  amount: 1000,
+  exchange_rate: 1,
   status: :finished
 )
