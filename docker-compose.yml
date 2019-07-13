@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: .
+    command: "rails s -b 0.0.0.0 -p 3000"
+    depends_on:
+      - db
+    # entrypoint: /bin/sh
+    env_file: .env
+    environment:
+      - RAILS_ENV=development
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/usr/src/app
+    stdin_open: true
+    tty: true
+  db:
+    image: postgres:latest
+    ports:
+      - 5432:5432
+  delayed_job:
+    build: .
+    command: rake jobs:work
+    volumes:
+      - .:/app
+    env_file: .env
+    depends_on:
+      - db
+    stdin_open: true
+    tty: true
