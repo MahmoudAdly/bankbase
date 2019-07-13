@@ -6,23 +6,33 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-User.create!(
+default_bank_user = User.create!(
   :name => 'Basebank',
   :email => 'basebank@example.com',
   :password => 'password',
   :password_confirmation => 'password'
 )
 
-User.create!(
+mahmoud = User.create!(
   :name => 'Mahmoud',
   :email => 'mahmoud@example.com',
   :password => 'password',
   :password_confirmation => 'password'
 )
 
-User.create!(
+mathias = User.create!(
   :name => 'Mathias',
   :email => 'mathias@example.com',
   :password => 'password',
   :password_confirmation => 'password'
+)
+
+Transaction.create!(
+  sender: default_bank_user,
+  receiver: mahmoud,
+  source_currency: :usd,
+  target_currency: :eur,
+  amount: 500.53,
+  exchange_rate: 0.95432,
+  status: :finished
 )
