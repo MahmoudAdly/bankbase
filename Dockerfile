@@ -37,6 +37,3 @@ COPY . $APP_HOME
 
 # Expose port 3000 on the container
 EXPOSE 3000
-
-# Run the application on port 3000
-# CMD rails s -b 0.0.0.0 -p 3000
